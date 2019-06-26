@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Event Request",
+  "description": "Event request payload specification",
+  "type": "object",
+  "properties": {
+    "username" : {
+      "description": "Username for this event context",
+      "type": "string",
+      "minLength": 1
+    },
+    "event_uuid": {
+      "description": "Unique request ID",
+      "type": "string",
+      "format": "uuid"
+    },
+    "ip_address": {
+      "description": "Originating IP Address IPv4 only",
+      "type": "string",
+      "format": "ipv4"
+    },
+    "unix_timestamp": {
+      "description": "Unix timestamp of when this event occurred",
+      "type": "integer",
+      "minimum": -9223372036854775808,
+      "maximum": 9223372036854775807
+    }
+  },
+  "required": ["username", "event_uuid", "ip_address", "unix_timestamp"]
+}

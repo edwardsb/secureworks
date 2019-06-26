@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  secureworks:
+    build:
+      context: .
+    env_file:
+      - .env
+    volumes:
+      - "dbdata:/var/lib/data/"
+    ports:
+      - "3000:3000"
+#  dynamodb:
+#    image: "cnadiminti/dynamodb-local"
+#    ports:
+#      - "8000:8000"
+#    volumes:
+#      - "dynamodata:/dynamodb_local_db"
+
+volumes:
+  dynamodata:
+  dbdata:
