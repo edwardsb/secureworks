@@ -55,6 +55,9 @@ func (h *HTTPServer) Close() error {
 }
 
 func (h *HTTPServer) initRouter() {
+
+	h.router.Use(HealthCheck("/health"))
+
 	h.router.Route("/v1", func(r chi.Router) {
 		r.With(NewEvenRequestMiddleware().Middleware).Post("/", func(w http.ResponseWriter, r *http.Request) {
 
@@ -191,7 +194,7 @@ func isSuspicious(speed float64, distance float64, r1, r2 uint16) bool {
 	// a big sphere (the earth) I think this will be fine
 	// in this case we probably can't accurately enough determine if they are in the overlapping space
 	// so it might be better to set not suspicious
-	if distance < float64(r1) + float64(r2) {
+	if distance < float64(r1)+float64(r2) {
 		return false
 	}
 	// radii don't overlap, so speed calculation is checked
@@ -231,7 +234,7 @@ func assignBool(b bool) *bool {
 }
 
 func renderError(w http.ResponseWriter, r *http.Request, err error) {
-	render.Status(r, 500)
+	render.Status(r, http.StatusInternalServerError)
 	// definitely not production ready, we could be leaking specifics about our architecture in the form of errors.
 	render.JSON(w, r, map[string]interface{}{
 		"error": err.Error(),

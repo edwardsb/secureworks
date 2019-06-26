@@ -40,7 +40,7 @@ func (e *EventRequestValidator) Middleware(next http.Handler) http.Handler {
 		err := render.Bind(r, eventRequest)
 		if err != nil {
 			log.Println(err)
-			render.Status(r, 400)
+			render.Status(r, http.StatusBadRequest)
 			render.JSON(w, r, map[string]interface{}{
 				"errors": err.Error(),
 			})
