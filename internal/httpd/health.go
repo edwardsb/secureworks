@@ -1,6 +1,8 @@
 package httpd
 
-import "net/http"
+import (
+	"net/http"
+)
 
 func HealthCheck(endpoint string) func(http.Handler) http.Handler {
 	f := func(h http.Handler) http.Handler {

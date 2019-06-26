@@ -14,7 +14,7 @@ RUN make build
 
 FROM alpine:3.10
 # https ssl certs, curl for healthcheck
-RUN apk --update upgrade # && apk --no-cache add curl && apk --no-cache add ca-certificates
+RUN apk --update upgrade && apk --no-cache add curl && apk --no-cache add ca-certificates
 RUN mkdir /usr/local/share/GeoIP
 RUN mkdir /opt/app
 RUN mkdir /var/lib/data  # sqlite file
@@ -24,6 +24,4 @@ EXPOSE 3000
 RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
 COPY --from=build /usr/local/share/GeoIP /usr/local/share/GeoIP
 COPY --from=build /src/secureworks /opt/app
-HEALTHCHECK --interval=10s --timeout=2s --retries=12 \
-  CMD curl --silent --fail localhost:3000/health || exit 1
 CMD /opt/app/secureworks server
